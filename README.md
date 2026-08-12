@@ -134,7 +134,7 @@ Required repository secrets: `SERVER_HOST`, `SERVER_USER`, `SERVER_SSH_KEY`, `GH
 2. Add the block in [`docker/Caddyfile.vps-snippet`](docker/Caddyfile.vps-snippet) to the Caddyfile already running there, then reload Caddy.
 3. Ensure `/opt/uids` exists and the deploy user can write to it.
 
-The container listens on `127.0.0.1:8080` and serves plain HTTP — TLS is the existing Caddy's job. If that Caddy runs inside Docker it cannot reach the host loopback; see the comments in [`docker-compose.yml`](docker-compose.yml) for the shared-network variant.
+The container serves plain HTTP on port 80 and publishes no host port — TLS and the public hostname are the existing Caddy's job. Caddy reaches it by service name over the external `proxy` network, which both stacks must join.
 
 ## Licence
 

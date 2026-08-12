@@ -8,11 +8,8 @@
 # Caddy provisions the TLS certificate on first request; nothing else to do.
 
 uids.piloidis.com {
-	# Matches the loopback port published in this repo's docker-compose.yml.
-	reverse_proxy 127.0.0.1:8080
-
-	# If your Caddy runs inside Docker, it cannot reach the host's loopback.
-	# Put both containers on a shared external network and use the service
-	# name instead:
-	# reverse_proxy storybook:80
+	encode gzip zstd
+	# `uids-storybook` is the compose service name; :80 is what the container
+	# listens on. Both containers must share the external `proxy` network.
+	reverse_proxy uids-storybook:80
 }

@@ -1,27 +1,25 @@
 name: uids
 
 services:
-  storybook:
+  # The service name is the hostname the VPS's Caddy proxies to, and that name
+  # is shared with every other stack on the `proxy` network — hence the prefix
+  # rather than a bare `storybook`.
+  uids-storybook:
     image: ghcr.io/${GHCR_OWNER:?set GHCR_OWNER in .env}/uids-storybook:${IMAGE_TAG:-latest}
     restart: unless-stopped
-    # Bound to loopback only: the VPS's existing Caddy terminates TLS for
-    # uids.piloidis.com and proxies to this port. Nothing is exposed publicly
-    # by this container itself.
-    #
-    # If that Caddy runs inside Docker too, loopback won't reach it. In that
-    # case drop the `ports` block, uncomment `networks` below, and proxy to
-    # `storybook:80` by service name instead.
-    ports:
-      - "127.0.0.1:${STORYBOOK_PORT:-8080}:80"
+    # No `ports` block on purpose. Caddy runs in Docker here, so it reaches this
+    # container over the shared network by name — publishing a host port would
+    # only widen the surface without being used.
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://127.0.0.1/index.html"]
       interval: 30s
       timeout: 5s
       retries: 3
       start_period: 10s
-    # networks:
-    #   - proxy
+    networks:
+      - proxy
 
-# networks:
-#   proxy:
-#     external: true
+networks:
+  # Created outside this stack — it is the network Caddy already sits on.
+  proxy:
+    external: true

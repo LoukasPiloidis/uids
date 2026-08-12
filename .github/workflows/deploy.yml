@@ -96,7 +96,6 @@ jobs:
             {
               printf 'GHCR_OWNER=%s\n' "$(echo "$GHCR_USER" | tr '[:upper:]' '[:lower:]')"
               printf 'IMAGE_TAG=%s\n'  "$IMAGE_TAG"
-              printf 'STORYBOOK_PORT=8080\n'
             } > .env
 
             echo "==> Pulling image ($IMAGE_TAG)"
