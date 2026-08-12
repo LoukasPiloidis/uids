@@ -7,8 +7,17 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {},
   },
+  // This Storybook is the design system's published documentation, not a
+  // scratchpad being set up — so no onboarding checklist and no release toasts.
+  features: {
+    sidebarOnboardingChecklist: false,
+    menuOnboardingChecklist: false,
+  },
+  core: {
+    disableWhatsNewNotifications: true,
+  },
   typescript: {
-    // Drive the autodocs prop tables from our real TypeScript interfaces, so
+    // Drive the Controls prop table from our real TypeScript interfaces, so
     // Storybook shows the same prop info a consumer gets from intellisense.
     reactDocgen: 'react-docgen-typescript',
     reactDocgenTypescriptOptions: {

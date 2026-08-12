@@ -13,7 +13,6 @@ const meta: Meta = {
       },
     },
   },
-  tags: ['!autodocs'],
 }
 export default meta
 

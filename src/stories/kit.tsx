@@ -55,12 +55,21 @@ export const Value = ({ children }: { children: ReactNode }) => (
   </span>
 )
 
-/** Reads live token values after mount, so nothing here can drift from the CSS. */
+/**
+ * Reads live token values after mount, so nothing here can drift from the CSS.
+ *
+ * Callers often build the token list inline, so the effect keys off the joined
+ * names rather than the array identity: depending on the array itself would
+ * re-run the effect on every render, and each run sets a fresh object, so the
+ * page would re-render forever.
+ */
 export const useTokenValues = (tokens: string[]) => {
+  const key = tokens.join(' ')
   const [values, setValues] = useState<Record<string, string>>({})
   useEffect(() => {
-    setValues(Object.fromEntries(tokens.map((token) => [token, resolve(token)])))
-  }, [tokens])
+    const names = key ? key.split(' ') : []
+    setValues(Object.fromEntries(names.map((token) => [token, resolve(token)])))
+  }, [key])
   return values
 }
 

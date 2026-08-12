@@ -5,7 +5,6 @@ import { radiusTokens, shadowTokens, spaceTokens } from './tokens'
 const meta: Meta = {
   title: 'Foundations/Spacing & Elevation',
   parameters: { layout: 'fullscreen' },
-  tags: ['!autodocs'],
 }
 export default meta
 

@@ -20,7 +20,6 @@ const preview: Preview = {
     },
     a11y: { test: 'todo' },
   },
-  tags: ['autodocs'],
 }
 
 export default preview
