@@ -1,0 +1,137 @@
+/* ============================================================
+   DESIGN TOKENS — the single source of truth.
+   Every CSS Module reads from these custom properties.
+   Change a value here and the whole system shifts.
+
+   Layering:
+     1. Raw scales (--green-*, neutrals)      ← palette, rarely touched
+     2. Semantic aliases (--accent, --surface) ← what components consume
+   Components must ONLY reference layer 2. Never hard-code hex, never
+   reference the raw scale directly from a component.
+
+   Direction: content-forward, light, green. Dark mode is a future
+   additive layer — redefine the semantic aliases under
+   :root[data-theme="dark"] without touching any component CSS.
+   ============================================================ */
+
+:root {
+  color-scheme: light;
+
+  /* --- Raw: green scale (brand / accent) --- */
+  --green-50: #edf7f1;
+  --green-100: #d4ebdd;
+  --green-200: #a9d7bd;
+  --green-300: #6fbd93;
+  --green-400: #3aa273;
+  --green-500: #1f8f5f;
+  --green-600: #147a52; /* filled accent — white text passes AA */
+  --green-700: #0e6141; /* accent text / links on light */
+  --green-800: #0a4a32;
+  --green-900: #073925;
+
+  /* --- Raw: neutrals (slight green bias so grey reads chosen) --- */
+  --neutral-0: #ffffff;
+  --neutral-25: #fafbfa;
+  --neutral-50: #f4f6f4;
+  --neutral-200: #e4e9e5;
+  --neutral-300: #cfd8d1;
+  --neutral-500: #7c877f;
+  --neutral-600: #566158;
+  --neutral-800: #2b3a31;
+  --neutral-900: #16211c;
+
+  /* --- Semantic: surfaces & text (components use these) --- */
+  --paper: var(--neutral-50); /* app background */
+  --surface: var(--neutral-0); /* cards, composer, panels */
+  --surface-2: var(--neutral-25); /* subtle raised / hover rows */
+  --ink: var(--neutral-900); /* strongest text, titles */
+  --text: var(--neutral-800); /* body copy */
+  --text-muted: var(--neutral-600); /* meta, secondary */
+  --text-subtle: var(--neutral-500); /* timestamps, hints */
+  --border: var(--neutral-200); /* hairlines, card edges */
+  --border-strong: var(--neutral-300); /* inputs, dividers under stress */
+
+  /* --- Semantic: accent (green) aliases --- */
+  --accent: var(--green-600);
+  --accent-hover: var(--green-700);
+  --accent-text: var(--green-700); /* accent as text/link on light */
+  --accent-subtle: var(--green-50);
+  --accent-subtle-2: var(--green-100);
+  --accent-ring: rgba(20, 122, 82, 0.35);
+
+  /* --- Semantic: text/icon color that sits on a filled accent/state --- */
+  --on-accent: var(--neutral-0);
+
+  /* --- Semantic: overlays (modal scrim, tooltip surface) --- */
+  --overlay: rgba(16, 33, 25, 0.45); /* modal backdrop */
+  --surface-inverse: var(--neutral-900); /* tooltip / dark chips */
+  --on-inverse: var(--neutral-0); /* text on inverse surface */
+
+  /* --- Semantic: states (independent of the accent) --- */
+  --up: var(--accent);
+  --up-weak: var(--green-50);
+  --down: #c0392b;
+  --down-weak: #fdecea;
+  --info: #2563a8;
+  --info-weak: #eef3fb;
+  --warning: #b7791f;
+  --warning-weak: #fdf3e2;
+
+  /* --- Typography: families --- */
+  --font-ui:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-reading:
+    Charter, "Bitstream Charter", "Iowan Old Style", "Source Serif Pro", Georgia, Cambria, serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* --- Typography: scale --- */
+  --text-xs: 0.75rem; /* 12 — timestamps, counts */
+  --text-sm: 0.8125rem; /* 13 — meta, labels */
+  --text-base: 0.9375rem; /* 15 — UI default */
+  --text-md: 1rem; /* 16 — reading body */
+  --text-lg: 1.125rem; /* 18 — reply lead */
+  --text-xl: 1.375rem; /* 22 — thread title */
+  --text-2xl: 1.75rem; /* 28 — section heading */
+  --text-3xl: 2.375rem; /* 38 — page title */
+
+  /* --- Typography: line-height & weight --- */
+  --lh-tight: 1.2;
+  --lh-snug: 1.35;
+  --lh-normal: 1.55;
+  --lh-reading: 1.68;
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semi: 600;
+  --weight-bold: 700;
+  --tracking-label: 0.06em;
+
+  /* --- Spacing (4px base) --- */
+  --space-1: 0.25rem; /* 4 */
+  --space-2: 0.5rem; /* 8 */
+  --space-3: 0.75rem; /* 12 */
+  --space-4: 1rem; /* 16 */
+  --space-5: 1.25rem; /* 20 */
+  --space-6: 1.5rem; /* 24 */
+  --space-8: 2rem; /* 32 */
+  --space-10: 2.5rem; /* 40 */
+  --space-12: 3rem; /* 48 */
+  --space-16: 4rem; /* 64 */
+
+  /* --- Radius --- */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-full: 999px;
+
+  /* --- Elevation (subtle — content-forward, low chrome) --- */
+  --shadow-sm: 0 1px 2px rgba(16, 33, 25, 0.05);
+  --shadow-md: 0 4px 12px rgba(16, 33, 25, 0.08);
+  --shadow-lg: 0 12px 32px rgba(16, 33, 25, 0.12);
+
+  /* --- Layout --- */
+  --measure: 68ch; /* reading width for post bodies */
+  --container: 900px;
+  --focus-ring: 0 0 0 3px var(--accent-ring);
+}

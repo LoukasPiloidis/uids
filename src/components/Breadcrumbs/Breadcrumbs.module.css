@@ -1,0 +1,51 @@
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+}
+
+.crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--text-muted);
+}
+
+/* Separator between crumbs (not before the first). */
+.crumb:not(:first-child)::before {
+  content: "/";
+  color: var(--text-subtle);
+  margin-right: var(--space-1);
+}
+
+.link {
+  color: var(--text-muted);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color 0.12s;
+}
+
+.link[data-hovered] {
+  color: var(--accent-text);
+  text-decoration: underline;
+}
+
+.link[data-focus-visible] {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* Current page: not a link target. */
+.crumb[data-current] .link {
+  color: var(--ink);
+  font-weight: var(--weight-medium);
+  cursor: default;
+  text-decoration: none;
+}

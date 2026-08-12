@@ -1,0 +1,82 @@
+{
+  "name": "@piloten/uids",
+  "version": "0.1.0",
+  "description": "Piloidis UI Design System — React Aria Components + CSS Modules over a single token layer.",
+  "license": "MIT",
+  "author": "Loukas Piloidis",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/piloten/uids.git"
+  },
+  "homepage": "https://uids.piloidis.com",
+  "keywords": [
+    "react",
+    "design-system",
+    "react-aria",
+    "components",
+    "css-modules",
+    "design-tokens"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./tokens.css": "./dist/tokens.css",
+    "./reset.css": "./dist/reset.css",
+    "./global.css": "./dist/global.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "vite build && node scripts/copy-styles.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build -o storybook-static",
+    "prepublishOnly": "pnpm run build"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "react-aria-components": "^1.20.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.8",
+    "@microsoft/api-extractor": "^7.58.12",
+    "@storybook/addon-a11y": "^10.5.7",
+    "@storybook/addon-docs": "^10.5.7",
+    "@storybook/react-vite": "^10.5.7",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^6.0.5",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "storybook": "^10.5.7",
+    "typescript": "^5.9.3",
+    "vite": "^8.2.1",
+    "vite-plugin-dts": "^5.0.3"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@10.30.1"
+}

@@ -1,0 +1,32 @@
+/* ============================================================
+   GLOBAL — the single stylesheet imported once by the app.
+   Composes tokens + reset and sets document-level defaults.
+
+   Import in the app entry (Phase 6):  import '@repo/ui/styles/global.css'
+   Until then this coexists with the legacy Tailwind globals.css.
+   ============================================================ */
+
+@import "./tokens.css";
+@import "./reset.css";
+
+body {
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  color: var(--text);
+  background: var(--paper);
+}
+
+/* Baseline heading rhythm — components override sizes via tokens */
+h1,
+h2,
+h3,
+h4 {
+  line-height: var(--lh-tight);
+  color: var(--ink);
+}
+
+/* Keyboard focus is always visible and consistent */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}

@@ -1,0 +1,18 @@
+# Add this block to the Caddyfile ALREADY RUNNING on your VPS — this file is
+# documentation, not something the stack loads. Reload with:
+#
+#   caddy reload --config /etc/caddy/Caddyfile
+#   # or, if Caddy runs in Docker:  docker compose exec caddy caddy reload --config /etc/caddy/Caddyfile
+#
+# DNS: uids.piloidis.com  →  A record pointing at the VPS's public IP.
+# Caddy provisions the TLS certificate on first request; nothing else to do.
+
+uids.piloidis.com {
+	# Matches the loopback port published in this repo's docker-compose.yml.
+	reverse_proxy 127.0.0.1:8080
+
+	# If your Caddy runs inside Docker, it cannot reach the host's loopback.
+	# Put both containers on a shared external network and use the service
+	# name instead:
+	# reverse_proxy storybook:80
+}

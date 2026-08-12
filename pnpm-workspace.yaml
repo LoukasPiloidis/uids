@@ -1,0 +1,4 @@
+# pnpm >= 10.30 reads build-script approval from here, not package.json.
+# esbuild ships a platform binary via a postinstall step; Vite needs it.
+onlyBuiltDependencies:
+  - esbuild

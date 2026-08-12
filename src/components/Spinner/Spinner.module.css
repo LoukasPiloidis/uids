@@ -1,0 +1,24 @@
+.spinner {
+  display: inline-flex;
+  align-items: center;
+}
+
+.ring {
+  display: inline-block;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  animation: spinner-rotate 0.7s linear infinite;
+}
+
+@keyframes spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ring {
+    animation-duration: 1.5s;
+  }
+}

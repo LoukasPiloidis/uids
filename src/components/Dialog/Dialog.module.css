@@ -1,0 +1,71 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  background: var(--overlay);
+}
+
+.modal {
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100vh - var(--space-8));
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+}
+
+.dialog {
+  outline: none;
+  padding: var(--space-6);
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  color: var(--text);
+}
+
+.title {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semi);
+  line-height: var(--lh-snug);
+  color: var(--ink);
+}
+
+/* Enter/exit motion. */
+.overlay[data-entering] {
+  animation: overlay-fade 0.15s ease-out;
+}
+.overlay[data-exiting] {
+  animation: overlay-fade 0.12s ease-in reverse;
+}
+.modal[data-entering] {
+  animation: modal-in 0.15s ease-out;
+}
+.modal[data-exiting] {
+  animation: modal-in 0.12s ease-in reverse;
+}
+
+@keyframes overlay-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  # Lets Deploy and Release reuse this exact job as a gate, so nothing ships
+  # that would have failed a PR check.
+  workflow_call:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm biome check .
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      # Builds the package (ESM bundle + .d.ts + stylesheets) and the docs site.
+      # Both have to pass before anything is published or deployed.
+      - name: Build package
+        run: pnpm build
+
+      - name: Build Storybook
+        run: pnpm build-storybook
+
+      # Catches broken exports maps, missing files and bad types before they
+      # reach the registry, where a version can never be reused.
+      # The CSS entrypoints are excluded because stylesheets have no type
+      # declarations to resolve, and cjs-resolves-to-esm is ignored because this
+      # package is deliberately ESM-only.
+      - name: Validate package publishability
+        run: |
+          npx --yes publint@latest
+          npx --yes @arethetypeswrong/cli@latest --pack . \
+            --exclude-entrypoints styles.css tokens.css reset.css global.css \
+            --ignore-rules cjs-resolves-to-esm

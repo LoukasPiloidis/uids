@@ -1,0 +1,99 @@
+.popover {
+  min-width: 180px;
+  max-width: 280px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  outline: none;
+}
+
+.popover[data-entering] {
+  animation: menu-in 0.12s ease-out;
+}
+.popover[data-exiting] {
+  animation: menu-in 0.1s ease-in reverse;
+}
+
+.menu {
+  outline: none;
+  padding: var(--space-1);
+  max-height: inherit;
+  overflow-y: auto;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  color: var(--text);
+  cursor: pointer;
+  outline: none;
+  /* React Aria drives selection via keyboard; suppress native text selection */
+  user-select: none;
+}
+
+/* RAC applies data-focused to the active item (hover or keyboard). */
+.item[data-focused] {
+  background: var(--accent-subtle);
+  color: var(--accent-text);
+}
+
+.item[data-focus-visible] {
+  box-shadow: var(--focus-ring);
+}
+
+.item[data-disabled] {
+  color: var(--text-subtle);
+  cursor: not-allowed;
+}
+
+.item[data-selected]::after {
+  content: "✓";
+  margin-left: auto;
+  color: var(--accent-text);
+}
+
+/* --- variants (default needs no extra rules) --- */
+.danger {
+  color: var(--down);
+}
+.danger[data-focused] {
+  background: var(--down-weak);
+  color: var(--down);
+}
+
+.separator {
+  height: 1px;
+  margin: var(--space-1) 0;
+  background: var(--border);
+  border: none;
+}
+
+.section {
+  display: block;
+}
+
+.sectionHeader {
+  padding: var(--space-2) 10px var(--space-1);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semi);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

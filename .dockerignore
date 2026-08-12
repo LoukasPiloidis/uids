@@ -1,0 +1,8 @@
+node_modules
+dist
+storybook-static
+.git
+.github
+*.tgz
+*.log
+.DS_Store

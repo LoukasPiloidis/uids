@@ -1,0 +1,90 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+}
+
+.label {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--ink);
+}
+
+.group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-2) 0 var(--space-3);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  transition:
+    border-color 0.12s,
+    box-shadow 0.12s;
+}
+
+.group:hover {
+  border-color: var(--text-subtle);
+}
+
+.field[data-focus-within] .group {
+  border-color: var(--accent);
+  box-shadow: var(--focus-ring);
+}
+
+.icon {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--text-subtle);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  color: var(--ink);
+}
+
+.input::placeholder {
+  color: var(--text-subtle);
+}
+
+/* RAC hides the clear button when the field is empty. */
+.clear {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--text-subtle);
+  font-size: var(--text-xs);
+  cursor: pointer;
+}
+
+.field[data-empty] .clear {
+  display: none;
+}
+
+.clear[data-hovered] {
+  background: var(--surface-2);
+  color: var(--text);
+}
+.clear[data-focus-visible] {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}

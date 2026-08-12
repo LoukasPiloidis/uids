@@ -1,0 +1,129 @@
+name: Deploy Storybook
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+
+# Never let two deploys touch the server at once. Queue instead of cancelling —
+# cancelling mid-deploy could leave the stack half-updated.
+concurrency:
+  group: deploy-storybook
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  build-and-push:
+    needs: ci
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set lowercase image prefix
+        run: echo "IMAGE_PREFIX=ghcr.io/$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Tagged with the commit SHA as well as latest: the SHA tag is what makes
+      # rollback possible (IMAGE_TAG=<sha> docker compose up -d) and what makes a
+      # deploy deterministic rather than "whatever latest points at right now".
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.IMAGE_PREFIX }}/uids-storybook:${{ github.sha }}
+            ${{ env.IMAGE_PREFIX }}/uids-storybook:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      # The server gets only what it needs to run the container — no source, no
+      # git. This file always matches the deployed commit.
+      - name: Ship compose file to the server
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: docker-compose.yml
+          target: /opt/uids
+
+      - name: Deploy
+        uses: appleboy/ssh-action@v1
+        env:
+          GHCR_USER: ${{ secrets.GHCR_USER }}
+          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+          IMAGE_TAG: ${{ github.sha }}
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          envs: GHCR_USER,GHCR_TOKEN,IMAGE_TAG
+          # No script_stop input in ssh-action v1 — it was removed. `set -euo
+          # pipefail` below is what aborts the deploy on the first failed command.
+          script: |
+            set -euo pipefail
+            cd /opt/uids
+
+            # .env is rewritten from secrets every deploy — the secrets are the
+            # single source of truth, and nothing sensitive lives only on the box.
+            echo "==> Writing .env"
+            umask 077
+            {
+              printf 'GHCR_OWNER=%s\n' "$(echo "$GHCR_USER" | tr '[:upper:]' '[:lower:]')"
+              printf 'IMAGE_TAG=%s\n'  "$IMAGE_TAG"
+              printf 'STORYBOOK_PORT=8080\n'
+            } > .env
+
+            echo "==> Pulling image ($IMAGE_TAG)"
+            echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
+            docker compose pull
+
+            # --wait blocks until the healthcheck passes and fails the step
+            # otherwise, so a broken build fails the deploy instead of going live.
+            echo "==> Starting container"
+            docker compose up -d --wait --remove-orphans
+
+            docker image prune -f
+            docker logout ghcr.io
+
+      # Proves the deploy from outside the server: real DNS, real TLS chain,
+      # real proxy path. An in-container healthcheck cannot catch a cert,
+      # DNS, or missing-Caddy-block failure.
+      - name: Verify the public site
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 10); do
+            if curl -fsS --max-time 10 https://uids.piloidis.com/ >/dev/null; then
+              echo "OK"
+              exit 0
+            fi
+            # Caddy may still be completing the ACME handshake on a first deploy.
+            sleep 15
+          done
+          echo "FAILED after 10 attempts"
+          exit 1

@@ -1,0 +1,24 @@
+.link {
+  color: var(--accent-text);
+  font-family: inherit;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color 0.12s;
+}
+
+.link[data-hovered] {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.link[data-focus-visible] {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.link[data-disabled] {
+  color: var(--text-subtle);
+  cursor: default;
+  text-decoration: none;
+}
