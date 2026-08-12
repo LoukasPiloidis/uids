@@ -78,6 +78,15 @@ Plus `cn` (a `clsx` wrapper) and five icons.
 
 Interaction state comes from React Aria as `data-*` attributes (`data-hovered`, `data-pressed`, `data-selected`, `data-focus-visible`, `data-disabled`) and is styled in CSS — there are no conditional class strings to manage.
 
+## Using it with AI tools
+
+The package ships an `llms.txt` — a short brief covering setup, the token rules, and what each component is for. Point an agent at whichever is easier to reach:
+
+- `node_modules/@piloten/uids/llms.txt` — already there once installed
+- <https://uids.piloidis.com/llms.txt>
+
+It's generated from the same story descriptions the docs site renders, so it tracks the release rather than drifting from it.
+
 ## Notes
 
 This package is **ESM-only**. Modern bundlers and Next.js handle it natively; a CommonJS `require()` needs a dynamic `import()`.
@@ -89,10 +98,13 @@ This package is **ESM-only**. Modern bundlers and Next.js handle it natively; a 
 ```bash
 pnpm install
 pnpm storybook        # docs site on :6006
-pnpm build            # dist/ — ESM bundle, index.d.ts, stylesheets
+pnpm build            # dist/ — ESM bundle, index.d.ts, stylesheets, llms.txt
+pnpm llms             # regenerate llms.txt on its own
 pnpm typecheck
 pnpm lint
 ```
+
+Contributor conventions live in [AGENTS.md](AGENTS.md).
 
 ### How the build works
 

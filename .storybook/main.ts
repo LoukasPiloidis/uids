@@ -1,8 +1,11 @@
 import type { StorybookConfig } from '@storybook/react-vite'
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(ts|tsx)'],
+  stories: ['../src/**/*.stories.@(ts|tsx)'],
   addons: ['@storybook/addon-docs', '@storybook/addon-a11y'],
+  // Publishes the agent brief alongside the docs site, so a tool that can reach
+  // the web gets the same guidance a consumer gets from node_modules.
+  staticDirs: [{ from: '../llms.txt', to: '/llms.txt' }],
   framework: {
     name: '@storybook/react-vite',
     options: {},

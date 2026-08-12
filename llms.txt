@@ -1,0 +1,149 @@
+# @piloten/uids
+
+> Piloidis UI Design System — React Aria Components + CSS Modules over a single token layer.
+
+A React component library. Behaviour and accessibility come from React Aria
+Components; styling is CSS Modules reading a single layer of design tokens.
+There is no Tailwind and no utility-class system.
+
+Docs: https://uids.piloidis.com
+
+## Setup
+
+```tsx
+// once, in the app entry — the token layer every component reads
+import '@piloten/uids/global.css'
+```
+
+Also available: `/tokens.css` (custom properties only), `/reset.css`, and
+`/styles.css` (component styles, already included by `global.css`).
+
+## Rules
+
+1. **Use semantic tokens, never raw scales.** `var(--accent)` and `var(--text)`
+   are public; `--green-500` and `--neutral-800` are internal. Overriding the
+   semantic layer rethemes the whole system — reaching past it into a raw scale
+   silently opts that element out of theming.
+2. **Never hardcode a value a token covers** — colour, spacing, radius, font
+   size, weight, line height, shadow.
+3. **Style interaction state with `data-*` attributes**, which React Aria emits:
+   `data-hovered`, `data-focus-visible`, `data-disabled`, `data-selected`,
+   `data-entering` / `data-exiting`, `data-invalid`, `data-expanded`. Do not use
+   `:hover` / `:focus`, and do not track this state in React — the pseudo-classes
+   fire in cases React Aria deliberately excludes.
+4. **Press, not click.** Interactive components take `onPress`, not `onClick`,
+   so keyboard, touch and pointer behave identically.
+5. **`className` is a plain string** on every component here and merges after the
+   internal classes, so consumer styles win.
+
+## Components (26)
+
+- **Avatar** — User image with an initial fallback. The fallback is `aria-hidden` — an avatar is decorative next to a visible name, so it never announces twice.
+  <br>Exports: `Avatar`, `AvatarProps`
+- **Badge** — A small status label. Non-interactive by design — if it needs a click or a remove affordance, reach for `TagGroup` instead.
+  <br>Exports: `Badge`, `BadgeProps`
+- **Breadcrumbs** — Where the current page sits in the hierarchy. The last crumb is the current page — leave its `href` off so it renders as text rather than a link back to itself.
+  <br>Exports: `Breadcrumb`, `BreadcrumbProps`, `Breadcrumbs`, `BreadcrumbsProps`
+- **Button** — The primary action control. Built on React Aria `Button`, so it handles keyboard, touch and pointer press consistently and exposes `data-hovered` / `data-pressed` / `data-focus-visible` for styling. Use `onPress`, not `onClick`.
+  <br>Exports: `Button`, `ButtonProps`
+- **Checkbox** — A boolean choice that takes effect on save. If the change applies immediately, use `Switch` instead — the difference is what the user expects to happen when they click it.
+  <br>Exports: `Checkbox`, `CheckboxProps`
+- **ComboBox** — A Select you can type into. Choose it over `Select` when the list is long enough that scanning is slower than typing, or when the user already knows the value by name.
+  <br>Exports: `ComboBox`, `ComboBoxItem`, `ComboBoxItemProps`, `ComboBoxProps`
+- **Dialog** — A modal that takes over the page: focus is trapped, the background is inert, Escape closes. Use it only when the user genuinely cannot continue without answering. `children` accepts a function receiving `close`, so buttons inside can dismiss it.
+  <br>Exports: `Dialog`, `DialogProps`
+- **Disclosure** — Collapsible content behind a heading. Wrap several in `DisclosureGroup` for an accordion — pass `allowsMultipleExpanded` if more than one should be able to stay open.
+  <br>Exports: `Disclosure`, `DisclosureGroup`, `DisclosureProps`
+- **EmptyState** — What a list shows when it has nothing in it. Give it an action whenever the user can actually fix the emptiness — an empty state without a next step is a dead end.
+  <br>Exports: `EmptyState`, `EmptyStateProps`
+- **Link** — Navigation, not action. Renders an anchor when given `href`; pass `onPress` instead for a router-driven link. If the result is a state change rather than a navigation, use `Button variant="ghost"`.
+  <br>Exports: `Link`, `LinkProps`
+- **ListBox** — A selectable list rendered inline, rather than inside a popover. Full keyboard navigation and typeahead come from React Aria. For a list that opens on demand, use `Select`; for a list of commands, use `Menu`.
+  <br>Exports: `ListBox`, `ListBoxItem`, `ListBoxItemProps`, `ListBoxProps`
+- **Menu** — A list of commands hanging off a trigger. Menu items *do* things — for picking a value that stays picked, use `Select`. Always wrap in `MenuTrigger` so focus returns to the button on close.
+  <br>Exports: `Menu`, `MenuGroup`, `MenuGroupProps`, `MenuItem`, `MenuItemProps`, `MenuProps`, `MenuSeparator`, `MenuTrigger`
+- **Popover** — Non-modal content anchored to a trigger. The page stays interactive behind it — if the user must deal with it before continuing, use `Dialog`. For a short hint on hover, use `Tooltip`.
+  <br>Exports: `DialogTrigger`, `Popover`, `PopoverProps`
+- **SearchField** — A search input with a built-in clear button. Renders `type="search"`, so Escape clears it and `onSubmit` fires on Enter — behaviour users already expect from browser search fields.
+  <br>Exports: `SearchField`, `SearchFieldProps`
+- **Select** — Pick one option from a known, short list. The list is not filterable — once it passes roughly a dozen options, or the user is likely to know what they want by name, switch to `ComboBox`.
+  <br>Exports: `Select`, `SelectItem`, `SelectItemProps`, `SelectProps`
+- **Separator** — A semantic divider (`role="separator"`). Use it when the split carries meaning; for purely decorative spacing, a border or margin is lighter.
+  <br>Exports: `Separator`, `SeparatorProps`
+- **Spinner** — Indeterminate loading. Backed by React Aria `ProgressBar`, so it announces as a live progress indicator rather than being invisible to screen readers. Always give it a `label` describing what is loading.
+  <br>Exports: `Spinner`, `SpinnerProps`
+- **Surface** — The card primitive — a bordered container on `--surface`. Use `as` to render the right semantic element (`article` for a post, `li` inside a list) rather than nesting a div inside one.
+  <br>Exports: `Surface`, `SurfaceProps`
+- **Switch** — An immediate on/off toggle. Because it applies instantly there is no Save button to confirm it — if the change needs confirmation or belongs to a form, use `Checkbox`.
+  <br>Exports: `Switch`, `SwitchProps`
+- **Tabs** — Peer views of the same subject, only one visible at a time. Arrow keys move between tabs and the panel is wired to its tab automatically. Tabs are not navigation — if each view has its own URL, use links.
+  <br>Exports: `Tab`, `TabList`, `TabListItemsProps`, `TabPanel`, `TabPanelProps`, `TabProps`, `Tabs`, `TabsProps`
+- **TagGroup** — Interactive chips — filters, or a set of applied labels. Pass `onRemove` and each tag grows a remove button. For a static, non-interactive label use `Badge`.
+  <br>Exports: `Tag`, `TagGroup`, `TagGroupProps`, `TagProps`
+- **TextArea** — Multi-line text input. Set `rows` to signal how much writing you expect — a two-row box invites a sentence, an eight-row box invites a post. `mono` switches to the monospace family for code or configuration.
+  <br>Exports: `TextArea`, `TextAreaProps`
+- **TextField** — Single-line text input with a label, optional description and validation message. React Aria wires the label, description and error to the input via `aria-describedby` automatically — never fake a label with a placeholder.
+  <br>Exports: `TextField`, `TextFieldProps`
+- **Toast** — Transient confirmation of something that already happened. Mount `<Toaster />` once at the app root, then call `toast()` from anywhere — no context or hook required. Never put a required action in one; they disappear.
+  <br>Exports: `ToastContentValue`, `Toaster`, `ToasterProps`, `ToastOptions`, `ToastTone`, `toast`, `toastQueue`
+- **ToggleButton** — A button that stays pressed. Reports `aria-pressed`, so assistive tech announces the state — unlike a `Switch`, which is a form control, this belongs in toolbars and segmented controls.
+  <br>Exports: `ToggleButton`, `ToggleButtonGroup`, `ToggleButtonProps`
+- **Tooltip** — A short hint on hover or keyboard focus. Never put essential information or interactive content in one — it is unreachable on touch devices. Label icon-only buttons with `aria-label` as well; the tooltip is a supplement, not the accessible name.
+  <br>Exports: `Tooltip`, `TooltipProps`, `TooltipTrigger`
+
+Also exported: `cn` (a `clsx` wrapper for composing class names), the icon set
+(`CheckIcon`, `ChevronDownIcon`, `ChevronRightIcon`, `SearchIcon`, `OverlayArrowTip`),
+and the `Key` / `Selection` types re-exported from React Aria Components.
+
+## Tokens
+
+Reference these from consumer CSS. Redefine them to retheme.
+
+### Semantic: surfaces & text (components use these)
+
+`--paper`, `--surface`, `--surface-2`, `--ink`, `--text`, `--text-muted`, `--text-subtle`, `--border`, `--border-strong`
+
+### Semantic: accent (green) aliases
+
+`--accent`, `--accent-hover`, `--accent-text`, `--accent-subtle`, `--accent-subtle-2`, `--accent-ring`
+
+### Semantic: text/icon color that sits on a filled accent/state
+
+`--on-accent`
+
+### Semantic: overlays (modal scrim, tooltip surface)
+
+`--overlay`, `--surface-inverse`, `--on-inverse`
+
+### Semantic: states (independent of the accent)
+
+`--up`, `--up-weak`, `--down`, `--down-weak`, `--info`, `--info-weak`, `--warning`, `--warning-weak`
+
+### Typography: families
+
+`--font-ui`, `--font-reading`, `--font-mono`
+
+### Typography: scale
+
+`--text-xs`, `--text-sm`, `--text-base`, `--text-md`, `--text-lg`, `--text-xl`, `--text-2xl`, `--text-3xl`
+
+### Typography: line-height & weight
+
+`--lh-tight`, `--lh-snug`, `--lh-normal`, `--lh-reading`, `--weight-normal`, `--weight-medium`, `--weight-semi`, `--weight-bold`, `--tracking-label`
+
+### Spacing (4px base)
+
+`--space-1`, `--space-2`, `--space-3`, `--space-4`, `--space-5`, `--space-6`, `--space-8`, `--space-10`, `--space-12`, `--space-16`
+
+### Radius
+
+`--radius-sm`, `--radius-md`, `--radius-lg`, `--radius-xl`, `--radius-full`
+
+### Elevation (subtle — content-forward, low chrome)
+
+`--shadow-sm`, `--shadow-md`, `--shadow-lg`
+
+### Layout
+
+`--measure`, `--container`, `--focus-ring`
+

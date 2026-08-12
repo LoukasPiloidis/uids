@@ -36,18 +36,20 @@
     "./package.json": "./package.json"
   },
   "files": [
-    "dist"
+    "dist",
+    "llms.txt"
   ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build": "vite build && node scripts/copy-styles.mjs",
+    "build": "vite build && node scripts/copy-styles.mjs && node scripts/generate-llms-txt.mjs",
+    "llms": "node scripts/generate-llms-txt.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "biome check .",
     "format": "biome format --write .",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build -o storybook-static",
+    "build-storybook": "node scripts/generate-llms-txt.mjs && storybook build -o storybook-static",
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
