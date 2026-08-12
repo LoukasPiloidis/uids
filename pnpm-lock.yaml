@@ -11,13 +11,13 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
-      react-aria-components:
-        specifier: ^1.20.0
-        version: 1.20.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.5.8
         version: 2.5.8
+      '@internationalized/date':
+        specifier: ^3.12.3
+        version: 3.12.3
       '@microsoft/api-extractor':
         specifier: ^7.58.12
         version: 7.58.12(@types/node@22.20.1)
@@ -45,6 +45,9 @@ importers:
       react:
         specifier: ^19.0.0
         version: 19.2.8
+      react-aria-components:
+        specifier: ^1.20.0
+        version: 1.20.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react-dom:
         specifier: ^19.0.0
         version: 19.2.8(react@19.2.8)

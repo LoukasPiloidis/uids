@@ -6,8 +6,11 @@
 // Requires the token layer to be loaded once globally, in the app entry:
 //   import '@repo/ui/styles/global.css'
 
-// Re-exported React Aria types consumers need when typing collection/selection state.
-export type { Key, Selection } from 'react-aria-components'
+// Re-exported React Aria types consumers need when typing collection/selection,
+// sorting and date state. `DateValue` means consumers can type a date without
+// taking a direct dependency on @internationalized/date.
+export type { DateValue, Key, Selection, SortDescriptor } from 'react-aria-components'
+export { Alert, type AlertProps } from './components/Alert/Alert'
 export { Avatar, type AvatarProps } from './components/Avatar/Avatar'
 export { Badge, type BadgeProps } from './components/Badge/Badge'
 export {
@@ -24,13 +27,25 @@ export {
   type ComboBoxItemProps,
   type ComboBoxProps,
 } from './components/ComboBox/ComboBox'
-export { Dialog, type DialogProps } from './components/Dialog/Dialog'
+export {
+  DatePicker,
+  type DatePickerProps,
+  DateRangePicker,
+  type DateRangePickerProps,
+} from './components/DatePicker/DatePicker'
+export {
+  Dialog,
+  DialogFooter,
+  type DialogFooterProps,
+  type DialogProps,
+} from './components/Dialog/Dialog'
 export {
   Disclosure,
   DisclosureGroup,
   type DisclosureProps,
 } from './components/Disclosure/Disclosure'
 export { EmptyState, type EmptyStateProps } from './components/EmptyState/EmptyState'
+export { FileTrigger, type FileTriggerProps } from './components/FileTrigger/FileTrigger'
 export { Link, type LinkProps } from './components/Link/Link'
 export {
   ListBox,
@@ -48,6 +63,7 @@ export {
   MenuSeparator,
   MenuTrigger,
 } from './components/Menu/Menu'
+export { NumberField, type NumberFieldProps } from './components/NumberField/NumberField'
 export { DialogTrigger, Popover, type PopoverProps } from './components/Popover/Popover'
 export { SearchField, type SearchFieldProps } from './components/SearchField/SearchField'
 export {
@@ -58,8 +74,23 @@ export {
 } from './components/Select/Select'
 export { Separator, type SeparatorProps } from './components/Separator/Separator'
 export { Spinner, type SpinnerProps } from './components/Spinner/Spinner'
+export { Stat, StatGroup, type StatGroupProps, type StatProps } from './components/Stat/Stat'
 export { Surface, type SurfaceProps } from './components/Surface/Surface'
 export { Switch, type SwitchProps } from './components/Switch/Switch'
+export {
+  Cell,
+  type CellProps,
+  Column,
+  type ColumnProps,
+  Row,
+  type RowProps,
+  Table,
+  TableBody,
+  type TableBodyProps,
+  TableHeader,
+  type TableHeaderProps,
+  type TableProps,
+} from './components/Table/Table'
 export {
   Tab,
   TabList,
@@ -94,8 +125,10 @@ export {
 } from './components/ToggleButton/ToggleButton'
 export { Tooltip, type TooltipProps, TooltipTrigger } from './components/Tooltip/Tooltip'
 export {
+  CalendarIcon,
   CheckIcon,
   ChevronDownIcon,
+  ChevronLeftIcon,
   ChevronRightIcon,
   OverlayArrowTip,
   SearchIcon,

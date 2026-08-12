@@ -30,6 +30,13 @@
   opacity: 0.5;
 }
 
+/* Pending is not disabled: the button keeps its colour and stays focusable, so
+   it reads as busy rather than unavailable. */
+.button[data-pending] {
+  cursor: progress;
+  opacity: 0.75;
+}
+
 /* --- sizes --- */
 .sm {
   font-size: var(--text-xs);

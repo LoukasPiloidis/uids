@@ -40,4 +40,18 @@ export const Dialog = ({ title, children, className, role, ...props }: DialogPro
   </ModalOverlay>
 )
 
+export interface DialogFooterProps {
+  children: ReactNode
+  className?: string
+}
+
+/**
+ * The action row at the bottom of a dialog. Buttons are laid out end-aligned in
+ * source order, so the confirming action goes last — the position users' eyes
+ * land on when they finish reading.
+ */
+export const DialogFooter = ({ children, className }: DialogFooterProps) => (
+  <div className={cn(styles.footer, className)}>{children}</div>
+)
+
 export { DialogTrigger }

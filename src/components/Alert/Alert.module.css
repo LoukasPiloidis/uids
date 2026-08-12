@@ -1,0 +1,96 @@
+.alert {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  line-height: var(--lh-normal);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+  /* Optical alignment with the first line of text rather than the box. */
+  margin-top: 1px;
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.title {
+  margin: 0;
+  font-weight: var(--weight-semi);
+}
+
+.content {
+  margin: 0;
+}
+
+.content :is(p, ul, ol) {
+  margin: 0;
+}
+
+.dismiss {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  font-size: var(--text-xs);
+  color: inherit;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.dismiss[data-hovered] {
+  opacity: 1;
+}
+
+.dismiss[data-focus-visible] {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  opacity: 1;
+}
+
+/* --- tones ---
+   Each pairs a weak background with the strong colour for text and border, so
+   the whole block reads as one state. */
+.accent {
+  background: var(--accent-subtle);
+  color: var(--accent-text);
+  border-color: var(--accent-subtle-2);
+}
+
+.info {
+  background: var(--info-weak);
+  color: var(--info);
+}
+
+.neutral {
+  background: var(--surface-2);
+  color: var(--text-muted);
+  border-color: var(--border);
+}
+
+.warning {
+  background: var(--warning-weak);
+  color: var(--warning);
+}
+
+.danger {
+  background: var(--down-weak);
+  color: var(--down);
+}

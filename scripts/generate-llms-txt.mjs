@@ -114,8 +114,9 @@ for (const { name, description } of components) {
 }
 put()
 put('Also exported: `cn` (a `clsx` wrapper for composing class names), the icon set')
-put('(`CheckIcon`, `ChevronDownIcon`, `ChevronRightIcon`, `SearchIcon`, `OverlayArrowTip`),')
-put('and the `Key` / `Selection` types re-exported from React Aria Components.')
+put('(`CalendarIcon`, `CheckIcon`, `ChevronDownIcon`, `ChevronLeftIcon`, `ChevronRightIcon`,')
+put('`SearchIcon`, `OverlayArrowTip`), and the `DateValue` / `Key` / `Selection` /')
+put('`SortDescriptor` types re-exported from React Aria Components.')
 put()
 
 put('## Tokens')
