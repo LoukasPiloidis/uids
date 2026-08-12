@@ -10,6 +10,7 @@
 uids.piloidis.com {
 	encode gzip zstd
 	# `uids-storybook` is the compose service name; :80 is what the container
-	# listens on. Both containers must share the external `proxy` network.
+	# listens on. Both containers sit on the external `proxy-net` network,
+	# which is what makes the name resolve.
 	reverse_proxy uids-storybook:80
 }

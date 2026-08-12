@@ -2,7 +2,7 @@ name: uids
 
 services:
   # The service name is the hostname the VPS's Caddy proxies to, and that name
-  # is shared with every other stack on the `proxy` network — hence the prefix
+  # is shared with every other stack on the `proxy-net` network — hence the prefix
   # rather than a bare `storybook`.
   uids-storybook:
     image: ghcr.io/${GHCR_OWNER:?set GHCR_OWNER in .env}/uids-storybook:${IMAGE_TAG:-latest}
@@ -17,9 +17,11 @@ services:
       retries: 3
       start_period: 10s
     networks:
-      - proxy
+      - proxy-net
 
 networks:
-  # Created outside this stack — it is the network Caddy already sits on.
-  proxy:
+  # Created outside this stack — it is the network Caddy already sits on,
+  # shared with the other sites it fronts. Static content only, so unlike those
+  # stacks there is no second, internal network to keep a database off it.
+  proxy-net:
     external: true
