@@ -1,5 +1,24 @@
 .field {
   display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+}
+
+/* Help text lines up under the label, not under the track: track width (34px)
+   plus the button's own gap. */
+.description,
+.error {
+  padding-left: 42px;
+  font-size: var(--text-xs);
+}
+
+.description {
+  color: var(--text-subtle);
+}
+
+.error {
+  color: var(--down);
 }
 
 .button {

@@ -36,32 +36,40 @@ Also available: `/tokens.css` (custom properties only), `/reset.css`, and
 5. **`className` is a plain string** on every component here and merges after the
    internal classes, so consumer styles win.
 
-## Components (26)
+## Components (32)
 
+- **Alert** — A message that stays on the page and belongs to what is around it — a failed save, form-level validation, the result of an import. Use `Toast` instead when the message is transient and unrelated to a specific region; the danger and warning tones announce themselves via `role="alert"`.
+  <br>Exports: `Alert`, `AlertProps`
 - **Avatar** — User image with an initial fallback. The fallback is `aria-hidden` — an avatar is decorative next to a visible name, so it never announces twice.
   <br>Exports: `Avatar`, `AvatarProps`
 - **Badge** — A small status label. Non-interactive by design — if it needs a click or a remove affordance, reach for `TagGroup` instead.
   <br>Exports: `Badge`, `BadgeProps`
 - **Breadcrumbs** — Where the current page sits in the hierarchy. The last crumb is the current page — leave its `href` off so it renders as text rather than a link back to itself.
   <br>Exports: `Breadcrumb`, `BreadcrumbProps`, `Breadcrumbs`, `BreadcrumbsProps`
-- **Button** — The primary action control. Built on React Aria `Button`, so it handles keyboard, touch and pointer press consistently and exposes `data-hovered` / `data-pressed` / `data-focus-visible` for styling. Use `onPress`, not `onClick`.
+- **Button** — The primary action control. Built on React Aria `Button`, so it handles keyboard, touch and pointer press consistently and exposes `data-hovered` / `data-pressed` / `data-focus-visible` for styling. Use `onPress`, not `onClick`. While `isPending` it blocks presses without going disabled, so it stays focusable and announces itself as busy.
   <br>Exports: `Button`, `ButtonProps`
 - **Checkbox** — A boolean choice that takes effect on save. If the change applies immediately, use `Switch` instead — the difference is what the user expects to happen when they click it.
   <br>Exports: `Checkbox`, `CheckboxProps`
 - **ComboBox** — A Select you can type into. Choose it over `Select` when the list is long enough that scanning is slower than typing, or when the user already knows the value by name.
   <br>Exports: `ComboBox`, `ComboBoxItem`, `ComboBoxItemProps`, `ComboBoxProps`
-- **Dialog** — A modal that takes over the page: focus is trapped, the background is inert, Escape closes. Use it only when the user genuinely cannot continue without answering. `children` accepts a function receiving `close`, so buttons inside can dismiss it.
-  <br>Exports: `Dialog`, `DialogProps`
+- **DatePicker** — A date field with a calendar. The value is an `@internationalized/date` object rather than a string or a `Date` — it carries no time or timezone, so "the 8th" stays the 8th wherever the user is. Segment order and formatting follow the `I18nProvider` locale. For a start and end together use `DateRangePicker`, which enforces end ≥ start itself.
+  <br>Exports: `DatePicker`, `DatePickerProps`, `DateRangePicker`, `DateRangePickerProps`
+- **Dialog** — A modal that takes over the page: focus is trapped, the background is inert, Escape closes. Use it only when the user genuinely cannot continue without answering. `children` accepts a function receiving `close`, so buttons inside can dismiss it, and `DialogFooter` lays out the action row.
+  <br>Exports: `Dialog`, `DialogFooter`, `DialogFooterProps`, `DialogProps`
 - **Disclosure** — Collapsible content behind a heading. Wrap several in `DisclosureGroup` for an accordion — pass `allowsMultipleExpanded` if more than one should be able to stay open.
   <br>Exports: `Disclosure`, `DisclosureGroup`, `DisclosureProps`
 - **EmptyState** — What a list shows when it has nothing in it. Give it an action whenever the user can actually fix the emptiness — an empty state without a next step is a dead end.
   <br>Exports: `EmptyState`, `EmptyStateProps`
+- **FileTrigger** — A styled file picker — a real `<input type="file">` kept hidden behind a `Button`, so the OS dialog and form submission still work. It reports the selection and nothing else: the chosen file name is the caller’s to display, because only the caller knows whether it belongs next to the button or somewhere else on the page.
+  <br>Exports: `FileTrigger`, `FileTriggerProps`
 - **Link** — Navigation, not action. Renders an anchor when given `href`; pass `onPress` instead for a router-driven link. If the result is a state change rather than a navigation, use `Button variant="ghost"`.
   <br>Exports: `Link`, `LinkProps`
 - **ListBox** — A selectable list rendered inline, rather than inside a popover. Full keyboard navigation and typeahead come from React Aria. For a list that opens on demand, use `Select`; for a list of commands, use `Menu`.
   <br>Exports: `ListBox`, `ListBoxItem`, `ListBoxItemProps`, `ListBoxProps`
 - **Menu** — A list of commands hanging off a trigger. Menu items *do* things — for picking a value that stays picked, use `Select`. Always wrap in `MenuTrigger` so focus returns to the button on close.
   <br>Exports: `Menu`, `MenuGroup`, `MenuGroupProps`, `MenuItem`, `MenuItemProps`, `MenuProps`, `MenuSeparator`, `MenuTrigger`
+- **NumberField** — Numeric input with steppers, locale-aware formatting and keyboard increment. Hands the call site a real `number` rather than a string, so consumers never parse a change event — reach for it over `TextField type="number"`, which does neither.
+  <br>Exports: `NumberField`, `NumberFieldProps`
 - **Popover** — Non-modal content anchored to a trigger. The page stays interactive behind it — if the user must deal with it before continuing, use `Dialog`. For a short hint on hover, use `Tooltip`.
   <br>Exports: `DialogTrigger`, `Popover`, `PopoverProps`
 - **SearchField** — A search input with a built-in clear button. Renders `type="search"`, so Escape clears it and `onSubmit` fires on Enter — behaviour users already expect from browser search fields.
@@ -72,10 +80,14 @@ Also available: `/tokens.css` (custom properties only), `/reset.css`, and
   <br>Exports: `Separator`, `SeparatorProps`
 - **Spinner** — Indeterminate loading. Backed by React Aria `ProgressBar`, so it announces as a live progress indicator rather than being invisible to screen readers. Always give it a `label` describing what is loading.
   <br>Exports: `Spinner`, `SpinnerProps`
+- **Stat** — A single headline number with its label and an optional change. Wrap several in `StatGroup` for the summary row at the top of a report — past four or five tiles the row stops being scannable and the data belongs in a `Table`.
+  <br>Exports: `Stat`, `StatGroup`, `StatGroupProps`, `StatProps`
 - **Surface** — The card primitive — a bordered container on `--surface`. Use `as` to render the right semantic element (`article` for a post, `li` inside a list) rather than nesting a div inside one.
   <br>Exports: `Surface`, `SurfaceProps`
 - **Switch** — An immediate on/off toggle. Because it applies instantly there is no Save button to confirm it — if the change needs confirmation or belongs to a form, use `Checkbox`.
   <br>Exports: `Switch`, `SwitchProps`
+- **Table** — Rows and columns of data, with keyboard navigation, sorting and optional row selection from React Aria. Mark the naming column `isRowHeader` or screen readers announce every row as anonymous cells. For a list of one thing per row, `ListBox` is lighter.
+  <br>Exports: `Cell`, `CellProps`, `Column`, `ColumnProps`, `Row`, `RowProps`, `Table`, `TableBody`, `TableBodyProps`, `TableHeader`, `TableHeaderProps`, `TableProps`
 - **Tabs** — Peer views of the same subject, only one visible at a time. Arrow keys move between tabs and the panel is wired to its tab automatically. Tabs are not navigation — if each view has its own URL, use links.
   <br>Exports: `Tab`, `TabList`, `TabListItemsProps`, `TabPanel`, `TabPanelProps`, `TabProps`, `Tabs`, `TabsProps`
 - **TagGroup** — Interactive chips — filters, or a set of applied labels. Pass `onRemove` and each tag grows a remove button. For a static, non-interactive label use `Badge`.
@@ -92,8 +104,9 @@ Also available: `/tokens.css` (custom properties only), `/reset.css`, and
   <br>Exports: `Tooltip`, `TooltipProps`, `TooltipTrigger`
 
 Also exported: `cn` (a `clsx` wrapper for composing class names), the icon set
-(`CheckIcon`, `ChevronDownIcon`, `ChevronRightIcon`, `SearchIcon`, `OverlayArrowTip`),
-and the `Key` / `Selection` types re-exported from React Aria Components.
+(`CalendarIcon`, `CheckIcon`, `ChevronDownIcon`, `ChevronLeftIcon`, `ChevronRightIcon`,
+`SearchIcon`, `OverlayArrowTip`), and the `DateValue` / `Key` / `Selection` /
+`SortDescriptor` types re-exported from React Aria Components.
 
 ## Tokens
 

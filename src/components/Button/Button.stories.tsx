@@ -8,7 +8,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'The primary action control. Built on React Aria `Button`, so it handles keyboard, touch and pointer press consistently and exposes `data-hovered` / `data-pressed` / `data-focus-visible` for styling. Use `onPress`, not `onClick`.',
+          'The primary action control. Built on React Aria `Button`, so it handles keyboard, touch and pointer press consistently and exposes `data-hovered` / `data-pressed` / `data-focus-visible` for styling. Use `onPress`, not `onClick`. While `isPending` it blocks presses without going disabled, so it stays focusable and announces itself as busy.',
       },
     },
   },
@@ -60,6 +60,27 @@ export const Sizes: Story = {
       </Button>
       <Button {...args} size="md">
         Medium
+      </Button>
+    </div>
+  ),
+}
+
+export const Pending: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'A pending button keeps its colour and its focus, unlike a disabled one — the press is swallowed, not the control. Give it a `pendingLabel` so a slow save reads as progress rather than a click that did nothing.',
+      },
+    },
+  },
+  render: (args) => (
+    <div style={{ display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
+      <Button {...args} isPending pendingLabel="Saving…">
+        Save changes
+      </Button>
+      <Button {...args} isPending variant="secondary">
+        No pending label
       </Button>
     </div>
   ),

@@ -36,6 +36,13 @@
   color: var(--ink);
 }
 
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+}
+
 /* Enter/exit motion. */
 .overlay[data-entering] {
   animation: overlay-fade 0.15s ease-out;

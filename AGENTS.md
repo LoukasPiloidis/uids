@@ -155,6 +155,13 @@ don't hand-format against it, run `pnpm format`.
 
 ## Traps
 
+- **`react-aria-components` is a peer dependency, and must stay one.** Making it
+  a regular dependency lets a consumer end up with two copies, and two copies
+  means two of every React context React Aria uses — `I18nProvider`, overlay and
+  portal state, the toast queue. A `Dialog` then cannot see the app's locale and
+  `toast()` pushes to a queue the mounted `<Toaster />` is not reading. Nothing
+  errors; it just quietly does the wrong thing. `@internationalized/date` is an
+  *optional* peer for the same reason — only `DatePicker` needs it.
 - **`vite.config.ts` is the *library* build.** It externalises React and emits one
   bundle. Storybook is an app build and must do neither, so `.storybook/main.ts`
   strips `build.lib`, `rollupOptions.external` and the `dts` plugin in `viteFinal`.

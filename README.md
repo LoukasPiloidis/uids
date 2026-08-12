@@ -1,16 +1,22 @@
 # @piloten/uids
 
-Piloidis UI Design System — 26 React components built on [React Aria Components](https://react-spectrum.adobe.com/react-aria/) for behaviour and accessibility, styled with CSS Modules over a single layer of design tokens.
+Piloidis UI Design System — 32 React components built on [React Aria Components](https://react-spectrum.adobe.com/react-aria/) for behaviour and accessibility, styled with CSS Modules over a single layer of design tokens.
 
 📖 **[uids.piloidis.com](https://uids.piloidis.com)** — component browser, colour palette, type scale.
 
 ## Install
 
 ```bash
-pnpm add @piloten/uids
+pnpm add @piloten/uids react-aria-components
 ```
 
-`react` and `react-dom` (18 or 19) are peer dependencies. React Aria Components comes bundled as a regular dependency, so there is nothing else to install.
+`react`, `react-dom` (18 or 19) and `react-aria-components` are peer dependencies. React Aria is a peer rather than a bundled dependency on purpose: two copies in one app means two copies of every React context it uses — `I18nProvider`, overlay state, the toast queue — and the failures are silent.
+
+`DatePicker` and `DateRangePicker` additionally need `@internationalized/date` to construct values. It is an optional peer, so install it only if you use them:
+
+```bash
+pnpm add @internationalized/date
+```
 
 ## Use
 

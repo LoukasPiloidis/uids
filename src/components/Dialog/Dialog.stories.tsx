@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Button } from '../Button/Button'
 import { TextField } from '../TextField/TextField'
-import { Dialog, DialogTrigger } from './Dialog'
+import { Dialog, DialogFooter, DialogTrigger } from './Dialog'
 
 const meta = {
   title: 'Components/Dialog',
@@ -10,7 +10,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'A modal that takes over the page: focus is trapped, the background is inert, Escape closes. Use it only when the user genuinely cannot continue without answering. `children` accepts a function receiving `close`, so buttons inside can dismiss it.',
+          'A modal that takes over the page: focus is trapped, the background is inert, Escape closes. Use it only when the user genuinely cannot continue without answering. `children` accepts a function receiving `close`, so buttons inside can dismiss it, and `DialogFooter` lays out the action row.',
       },
     },
   },
@@ -26,13 +26,6 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-const actionRow = {
-  display: 'flex',
-  gap: 'var(--space-2)',
-  justifyContent: 'flex-end',
-  marginTop: 'var(--space-6)',
-} as const
-
 export const Playground: Story = {
   render: (args) => (
     <DialogTrigger>
@@ -44,12 +37,12 @@ export const Playground: Story = {
               <TextField label="Title" placeholder="What is this about?" autoFocus />
               <TextField label="Category" placeholder="Design" />
             </div>
-            <div style={actionRow}>
+            <DialogFooter>
               <Button variant="ghost" onPress={close}>
                 Cancel
               </Button>
               <Button onPress={close}>Create</Button>
-            </div>
+            </DialogFooter>
           </>
         )}
       </Dialog>
@@ -67,14 +60,14 @@ export const Confirmation: Story = {
             <p style={{ margin: 0, color: 'var(--text-muted)', maxWidth: '46ch' }}>
               This removes the thread and all 24 replies. It cannot be undone.
             </p>
-            <div style={actionRow}>
+            <DialogFooter>
               <Button variant="ghost" onPress={close}>
                 Keep it
               </Button>
               <Button variant="danger" onPress={close}>
                 Delete
               </Button>
-            </div>
+            </DialogFooter>
           </>
         )}
       </Dialog>
@@ -94,9 +87,9 @@ export const NotDismissable: Story = {
               Clicking the backdrop and pressing Escape are both disabled here, so the only way out
               is the button.
             </p>
-            <div style={actionRow}>
+            <DialogFooter>
               <Button onPress={close}>I understand</Button>
-            </div>
+            </DialogFooter>
           </>
         )}
       </Dialog>

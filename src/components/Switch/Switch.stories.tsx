@@ -24,6 +24,14 @@ type Story = StoryObj<typeof meta>
 
 export const Playground: Story = {}
 
+export const WithDescription: Story = {
+  name: 'With description',
+  args: {
+    children: 'Public profile',
+    description: 'Anyone with the link can see your name and photo.',
+  },
+}
+
 export const States: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 'var(--space-3)' }}>
