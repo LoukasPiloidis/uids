@@ -46,3 +46,27 @@ export const External: Story = {
     </Link>
   ),
 }
+
+export const Muted: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Inherits the muted text colour and only picks up emphasis on hover. Use it where links are the norm rather than the exception — nav rows, breadcrumb tails, metadata under a card — so the accent colour keeps its meaning elsewhere.',
+      },
+    },
+  },
+  render: () => (
+    <div style={{ display: 'flex', gap: 'var(--space-4)' }}>
+      <Link variant="muted" href="#">
+        Programmes
+      </Link>
+      <Link variant="muted" href="#">
+        Exercises
+      </Link>
+      <Link variant="muted" href="#">
+        Settings
+      </Link>
+    </div>
+  ),
+}

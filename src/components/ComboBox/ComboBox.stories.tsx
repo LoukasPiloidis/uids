@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { useState } from 'react'
 import { ComboBox, ComboBoxItem } from './ComboBox'
 
 const timezones = [
@@ -21,7 +22,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'A Select you can type into. Choose it over `Select` when the list is long enough that scanning is slower than typing, or when the user already knows the value by name.',
+          'A Select you can type into. Choose it over `Select` when the list is long enough that scanning is slower than typing, or when the user already knows the value by name. Pass `onCreate` to turn it into a search-or-create field: when the typed text matches no existing option, a "Create …" row is appended to the results and picking it hands you the trimmed text. Prefer that over `allowsCustomValue` whenever the new value has to be persisted rather than just accepted.',
       },
     },
   },
@@ -65,6 +66,60 @@ export const AllowsCustomValue: Story = {
     allowsCustomValue: true,
     description: 'Not in the list? Type it anyway.',
   },
+}
+
+export const Creatable: Story = {
+  name: 'Search or create',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Type a name that already exists and you get the match; type one that does not and the create row appears. Matching is case-insensitive and ignores surrounding whitespace, so "bench press" will not offer to create a duplicate of "Bench Press".',
+      },
+    },
+  },
+  render: () => {
+    const [exercises, setExercises] = useState(['Bench Press', 'Barbell Squat', 'Pull-Up'])
+    const [selected, setSelected] = useState<string | null>(null)
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+        <ComboBox
+          label="Exercise"
+          placeholder="Search or add…"
+          selectedKey={selected}
+          onSelectionChange={(key) => setSelected(key === null ? null : String(key))}
+          onCreate={(name) => {
+            setExercises((current) => [...current, name])
+            setSelected(name)
+          }}
+        >
+          {exercises.map((name) => (
+            <ComboBoxItem key={name} id={name}>
+              {name}
+            </ComboBoxItem>
+          ))}
+        </ComboBox>
+        <span style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)' }}>
+          {exercises.length} in the library · selected: {selected ?? 'none'}
+        </span>
+      </div>
+    )
+  },
+}
+
+export const CreatableEmpty: Story = {
+  name: 'Search or create — empty library',
+  render: () => (
+    <ComboBox
+      label="Exercise"
+      placeholder="Search or add…"
+      onCreate={() => {}}
+      emptyState="No exercises yet."
+    >
+      {[]}
+    </ComboBox>
+  ),
 }
 
 export const Invalid: Story = {

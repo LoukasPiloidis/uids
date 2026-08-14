@@ -1,0 +1,11 @@
+.centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5) var(--space-4);
+  background: var(--paper);
+}
+
+.fullHeight {
+  min-height: 100dvh;
+}

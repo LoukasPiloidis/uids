@@ -36,7 +36,7 @@ Also available: `/tokens.css` (custom properties only), `/reset.css`, and
 5. **`className` is a plain string** on every component here and merges after the
    internal classes, so consumer styles win.
 
-## Components (32)
+## Components (38)
 
 - **Alert** — A message that stays on the page and belongs to what is around it — a failed save, form-level validation, the result of an import. Use `Toast` instead when the message is transient and unrelated to a specific region; the danger and warning tones announce themselves via `role="alert"`.
   <br>Exports: `Alert`, `AlertProps`
@@ -48,10 +48,14 @@ Also available: `/tokens.css` (custom properties only), `/reset.css`, and
   <br>Exports: `Breadcrumb`, `BreadcrumbProps`, `Breadcrumbs`, `BreadcrumbsProps`
 - **Button** — The primary action control. Built on React Aria `Button`, so it handles keyboard, touch and pointer press consistently and exposes `data-hovered` / `data-pressed` / `data-focus-visible` for styling. Use `onPress`, not `onClick`. While `isPending` it blocks presses without going disabled, so it stays focusable and announces itself as busy.
   <br>Exports: `Button`, `ButtonProps`
+- **Centered** — Centres a single block in the viewport on the page background — the shell for sign-in, empty app states and error pages. It is the whole page, so it renders `main` by default; drop `isFullHeight` when nesting it inside a layout that already owns the height.
+  <br>Exports: `Centered`, `CenteredProps`
 - **Checkbox** — A boolean choice that takes effect on save. If the change applies immediately, use `Switch` instead — the difference is what the user expects to happen when they click it.
   <br>Exports: `Checkbox`, `CheckboxProps`
-- **ComboBox** — A Select you can type into. Choose it over `Select` when the list is long enough that scanning is slower than typing, or when the user already knows the value by name.
-  <br>Exports: `ComboBox`, `ComboBoxItem`, `ComboBoxItemProps`, `ComboBoxProps`
+- **CheckboxGroup** — A labelled set of checkboxes sharing one value array, one validation message and one accessible group name. Use it whenever more than one checkbox belongs to the same question — a lone `Checkbox` for a standalone toggle, and `Select` or `ListBox` with `selectionMode="multiple"` when the list is long enough to need scrolling.
+  <br>Exports: `CheckboxGroup`, `CheckboxGroupProps`
+- **ComboBox** — A Select you can type into. Choose it over `Select` when the list is long enough that scanning is slower than typing, or when the user already knows the value by name. Pass `onCreate` to turn it into a search-or-create field: when the typed text matches no existing option, a "Create …" row is appended to the results and picking it hands you the trimmed text. Prefer that over `allowsCustomValue` whenever the new value has to be persisted rather than just accepted.
+  <br>Exports: `ComboBox`, `ComboBoxItem`, `ComboBoxItemProps`, `ComboBoxProps`, `CREATE_KEY`
 - **DatePicker** — A date field with a calendar. The value is an `@internationalized/date` object rather than a string or a `Date` — it carries no time or timezone, so "the 8th" stays the 8th wherever the user is. Segment order and formatting follow the `I18nProvider` locale. For a start and end together use `DateRangePicker`, which enforces end ≥ start itself.
   <br>Exports: `DatePicker`, `DatePickerProps`, `DateRangePicker`, `DateRangePickerProps`
 - **Dialog** — A modal that takes over the page: focus is trapped, the background is inert, Escape closes. Use it only when the user genuinely cannot continue without answering. `children` accepts a function receiving `close`, so buttons inside can dismiss it, and `DialogFooter` lays out the action row.
@@ -62,6 +66,10 @@ Also available: `/tokens.css` (custom properties only), `/reset.css`, and
   <br>Exports: `EmptyState`, `EmptyStateProps`
 - **FileTrigger** — A styled file picker — a real `<input type="file">` kept hidden behind a `Button`, so the OS dialog and form submission still work. It reports the selection and nothing else: the chosen file name is the caller’s to display, because only the caller knows whether it belongs next to the button or somewhere else on the page.
   <br>Exports: `FileTrigger`, `FileTriggerProps`
+- **Form** — A form element that stacks its fields with consistent vertical rhythm and wires React Aria native validation. It is layout and validation plumbing only — it deliberately knows nothing about form state, so pair it with whatever form library the consuming app uses (react-hook-form, TanStack Form) by controlling the fields inside it.
+  <br>Exports: `Form`, `FormProps`
+- **Heading** — Section and page titles. `level` drives both the type scale and the tag, so the visual hierarchy and the document outline stay in step by default — reach for `as` only when they genuinely need to diverge (a visually small page title, say). For body copy use `Text`.
+  <br>Exports: `Heading`, `HeadingProps`
 - **Link** — Navigation, not action. Renders an anchor when given `href`; pass `onPress` instead for a router-driven link. If the result is a state change rather than a navigation, use `Button variant="ghost"`.
   <br>Exports: `Link`, `LinkProps`
 - **ListBox** — A selectable list rendered inline, rather than inside a popover. Full keyboard navigation and typeahead come from React Aria. For a list that opens on demand, use `Select`; for a list of commands, use `Menu`.
@@ -72,6 +80,8 @@ Also available: `/tokens.css` (custom properties only), `/reset.css`, and
   <br>Exports: `NumberField`, `NumberFieldProps`
 - **Popover** — Non-modal content anchored to a trigger. The page stays interactive behind it — if the user must deal with it before continuing, use `Dialog`. For a short hint on hover, use `Tooltip`.
   <br>Exports: `DialogTrigger`, `Popover`, `PopoverProps`
+- **ProgressBar** — Shows how far along a known-length task is. Use it when the total is knowable — steps completed, weeks of a programme finished, bytes uploaded — and `Spinner` when it is not. Set `isIndeterminate` for work that has started but has no measurable end.
+  <br>Exports: `ProgressBar`, `ProgressBarProps`
 - **SearchField** — A search input with a built-in clear button. Renders `type="search"`, so Escape clears it and `onSubmit` fires on Enter — behaviour users already expect from browser search fields.
   <br>Exports: `SearchField`, `SearchFieldProps`
 - **Select** — Pick one option from a known, short list. The list is not filterable — once it passes roughly a dozen options, or the user is likely to know what they want by name, switch to `ComboBox`.
@@ -92,6 +102,8 @@ Also available: `/tokens.css` (custom properties only), `/reset.css`, and
   <br>Exports: `Tab`, `TabList`, `TabListItemsProps`, `TabPanel`, `TabPanelProps`, `TabProps`, `Tabs`, `TabsProps`
 - **TagGroup** — Interactive chips — filters, or a set of applied labels. Pass `onRemove` and each tag grows a remove button. For a static, non-interactive label use `Badge`.
   <br>Exports: `Tag`, `TagGroup`, `TagGroupProps`, `TagProps`
+- **Text** — Body copy with the type tokens already applied. Size and tone are independent axes — `size` picks the step on the type scale, `tone` picks the text colour — so a small muted caption is `size="sm" tone="muted"` rather than a single conflated variant. Use `Heading` for titles, and `isReading` for long-form prose that should wrap at `--measure`.
+  <br>Exports: `Text`, `TextProps`
 - **TextArea** — Multi-line text input. Set `rows` to signal how much writing you expect — a two-row box invites a sentence, an eight-row box invites a post. `mono` switches to the monospace family for code or configuration.
   <br>Exports: `TextArea`, `TextAreaProps`
 - **TextField** — Single-line text input with a label, optional description and validation message. React Aria wires the label, description and error to the input via `aria-describedby` automatically — never fake a label with a placeholder.

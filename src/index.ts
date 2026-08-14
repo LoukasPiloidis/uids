@@ -20,12 +20,18 @@ export {
   type BreadcrumbsProps,
 } from './components/Breadcrumbs/Breadcrumbs'
 export { Button, type ButtonProps } from './components/Button/Button'
+export { Centered, type CenteredProps } from './components/Centered/Centered'
 export { Checkbox, type CheckboxProps } from './components/Checkbox/Checkbox'
+export {
+  CheckboxGroup,
+  type CheckboxGroupProps,
+} from './components/CheckboxGroup/CheckboxGroup'
 export {
   ComboBox,
   ComboBoxItem,
   type ComboBoxItemProps,
   type ComboBoxProps,
+  CREATE_KEY,
 } from './components/ComboBox/ComboBox'
 export {
   DatePicker,
@@ -46,6 +52,8 @@ export {
 } from './components/Disclosure/Disclosure'
 export { EmptyState, type EmptyStateProps } from './components/EmptyState/EmptyState'
 export { FileTrigger, type FileTriggerProps } from './components/FileTrigger/FileTrigger'
+export { Form, type FormProps } from './components/Form/Form'
+export { Heading, type HeadingProps } from './components/Heading/Heading'
 export { Link, type LinkProps } from './components/Link/Link'
 export {
   ListBox,
@@ -65,6 +73,7 @@ export {
 } from './components/Menu/Menu'
 export { NumberField, type NumberFieldProps } from './components/NumberField/NumberField'
 export { DialogTrigger, Popover, type PopoverProps } from './components/Popover/Popover'
+export { ProgressBar, type ProgressBarProps } from './components/ProgressBar/ProgressBar'
 export { SearchField, type SearchFieldProps } from './components/SearchField/SearchField'
 export {
   Select,
@@ -107,6 +116,7 @@ export {
   type TagGroupProps,
   type TagProps,
 } from './components/TagGroup/TagGroup'
+export { Text, type TextProps } from './components/Text/Text'
 export { TextArea, type TextAreaProps } from './components/TextArea/TextArea'
 export { TextField, type TextFieldProps } from './components/TextField/TextField'
 export {
@@ -131,6 +141,7 @@ export {
   ChevronLeftIcon,
   ChevronRightIcon,
   OverlayArrowTip,
+  PlusIcon,
   SearchIcon,
 } from './icons'
 export { cn } from './lib/cn'

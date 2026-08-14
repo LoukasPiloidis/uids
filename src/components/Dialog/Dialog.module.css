@@ -43,6 +43,92 @@
   margin-top: var(--space-5);
 }
 
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Sheet — anchored to the bottom edge, the phone-native presentation. */
+.sheetOverlay {
+  align-items: flex-end;
+  padding: 0;
+}
+
+.sheet {
+  max-width: 640px;
+  max-height: 90dvh;
+  border-width: 0;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+.sheet .dialog {
+  max-height: inherit;
+  overflow-y: auto;
+  padding-bottom: max(var(--space-6), env(safe-area-inset-bottom));
+}
+
+.sheet[data-entering] {
+  animation: sheet-up 0.2s ease-out;
+}
+.sheet[data-exiting] {
+  animation: sheet-up 0.15s ease-in reverse;
+}
+
+/* Fullscreen — takes the viewport, for flows rather than confirmations. */
+.fullscreenOverlay {
+  padding: 0;
+}
+
+.fullscreen {
+  max-width: none;
+  width: 100%;
+  height: 100dvh;
+  max-height: none;
+  border-width: 0;
+  border-radius: 0;
+}
+
+.fullscreen .dialog {
+  height: 100%;
+  overflow-y: auto;
+  padding: max(var(--space-6), env(safe-area-inset-top)) var(--space-5)
+    max(var(--space-6), env(safe-area-inset-bottom));
+}
+
+.fullscreen[data-entering] {
+  animation: overlay-fade 0.15s ease-out;
+}
+.fullscreen[data-exiting] {
+  animation: overlay-fade 0.12s ease-in reverse;
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet[data-entering],
+  .sheet[data-exiting],
+  .fullscreen[data-entering],
+  .fullscreen[data-exiting],
+  .modal[data-entering],
+  .modal[data-exiting] {
+    animation-name: overlay-fade;
+    animation-duration: 1ms;
+  }
+}
+
 /* Enter/exit motion. */
 .overlay[data-entering] {
   animation: overlay-fade 0.15s ease-out;

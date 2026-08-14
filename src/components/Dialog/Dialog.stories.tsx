@@ -96,3 +96,93 @@ export const NotDismissable: Story = {
     </DialogTrigger>
   ),
 }
+
+export const Sheet: Story = {
+  name: 'Sheet (mobile-first)',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Slides up from the bottom edge and stops short of the top, so the page stays visible behind it. On a phone this puts the content within thumb reach where a centred panel does not — narrow the viewport to see why it is the better default there.',
+      },
+    },
+  },
+  render: () => (
+    <DialogTrigger>
+      <Button variant="secondary">Open sheet</Button>
+      <Dialog title="Log this set" variant="sheet">
+        {({ close }) => (
+          <>
+            <p style={{ margin: 0, color: 'var(--text-muted)' }}>
+              Anchored to the bottom edge and padded past the safe-area inset.
+            </p>
+            <DialogFooter>
+              <Button variant="secondary" onPress={close}>
+                Cancel
+              </Button>
+              <Button onPress={close}>Save</Button>
+            </DialogFooter>
+          </>
+        )}
+      </Dialog>
+    </DialogTrigger>
+  ),
+}
+
+export const Fullscreen: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Takes the whole viewport. Use it for a flow with its own steps — an editor, a multi-field form — and keep `modal` for anything the user answers in one glance.',
+      },
+    },
+  },
+  render: () => (
+    <DialogTrigger>
+      <Button variant="secondary">Open fullscreen</Button>
+      <Dialog title="Edit programme" variant="fullscreen">
+        {({ close }) => (
+          <>
+            <p style={{ margin: 0, color: 'var(--text-muted)' }}>
+              Fills the viewport and scrolls internally, respecting both safe-area insets.
+            </p>
+            <DialogFooter>
+              <Button variant="secondary" onPress={close}>
+                Discard
+              </Button>
+              <Button onPress={close}>Done</Button>
+            </DialogFooter>
+          </>
+        )}
+      </Dialog>
+    </DialogTrigger>
+  ),
+}
+
+export const HiddenTitle: Story = {
+  name: 'Visually hidden title',
+  render: () => (
+    <DialogTrigger>
+      <Button variant="secondary">Open</Button>
+      <Dialog title="Delete exercise" hideTitle>
+        {({ close }) => (
+          <>
+            <h2 style={{ margin: 0, fontSize: 'var(--text-lg)' }}>Delete “Bench Press”?</h2>
+            <p style={{ margin: 'var(--space-2) 0 0', color: 'var(--text-muted)' }}>
+              The dialog still has an accessible name — it is just not painted twice.
+            </p>
+            <DialogFooter>
+              <Button variant="secondary" onPress={close}>
+                Cancel
+              </Button>
+              <Button variant="danger" onPress={close}>
+                Delete
+              </Button>
+            </DialogFooter>
+          </>
+        )}
+      </Dialog>
+    </DialogTrigger>
+  ),
+}

@@ -1,10 +1,21 @@
 .link {
-  color: var(--accent-text);
   font-family: inherit;
   text-decoration: none;
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: color 0.12s;
+}
+
+.default {
+  color: var(--accent-text);
+}
+
+.muted {
+  color: var(--text-muted);
+}
+
+.muted[data-hovered] {
+  color: var(--text);
 }
 
 .link[data-hovered] {
