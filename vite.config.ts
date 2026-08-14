@@ -63,6 +63,12 @@ export default defineConfig({
     rollupOptions: {
       external: (id) => external.some((dep) => id === dep || id.startsWith(`${dep}/`)),
       output: {
+        // React Aria Components is client-only, so the whole bundle is too. Without
+        // this directive a React Server Component importing anything from here pulls
+        // RAC into the server graph and dies on `createContext is not a function`.
+        // Rollup emits the banner ahead of the imports, which is where the directive
+        // has to sit; declaring it in `src/index.ts` instead gets stripped.
+        banner: '"use client";',
         assetFileNames: (asset) =>
           asset.name?.endsWith('.css') ? 'styles.css' : '[name][extname]',
       },

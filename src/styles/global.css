@@ -2,8 +2,10 @@
    GLOBAL — the single stylesheet imported once by the app.
    Composes tokens + reset and sets document-level defaults.
 
-   Import in the app entry (Phase 6):  import '@repo/ui/styles/global.css'
-   Until then this coexists with the legacy Tailwind globals.css.
+   Import in the app entry:  import '@piloten/uids/global.css'
+
+   The published copy also imports ./styles.css, the bundled component CSS —
+   scripts/copy-styles.mjs adds that line, since the file only exists in dist/.
    ============================================================ */
 
 @import "./tokens.css";
