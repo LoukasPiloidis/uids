@@ -1,6 +1,6 @@
 {
   "name": "@piloten/uids",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Piloidis UI Design System — React Aria Components + CSS Modules over a single token layer.",
   "license": "MIT",
   "author": "Loukas Piloidis",
