@@ -18,14 +18,13 @@ import { ChevronDownIcon, PlusIcon } from '../../icons'
 import { cn } from '../../lib/cn'
 import styles from './ComboBox.module.css'
 
-/**
- * Key of the synthetic "create" option. Exported so a consumer comparing keys in
- * `onSelectionChange` can recognise and skip it — `onCreate` already fires for it.
- */
 export const CREATE_KEY = '__uids-create__'
 
 export interface ComboBoxProps<T extends object>
-  extends Omit<AriaComboBoxProps<T>, 'className' | 'children'> {
+  extends Omit<
+    AriaComboBoxProps<T>,
+    'className' | 'children' | 'selectedKey' | 'defaultSelectedKey' | 'onSelectionChange'
+  > {
   label?: string
   description?: string
   errorMessage?: string | ((validation: ValidationResult) => string)
@@ -60,7 +59,7 @@ export const ComboBox = <T extends object>({
   inputValue,
   defaultInputValue,
   onInputChange,
-  onSelectionChange,
+  onChange,
   allowsEmptyCollection,
   menuTrigger,
   className,
@@ -87,12 +86,12 @@ export const ComboBox = <T extends object>({
     onInputChange?.(value)
   }
 
-  const handleSelectionChange = (key: Key | null) => {
+  const handleChange = (key: Key | null) => {
     if (key === CREATE_KEY) {
       onCreate?.(trimmed)
       return
     }
-    onSelectionChange?.(key)
+    onChange?.(key)
   }
 
   return (
@@ -101,7 +100,7 @@ export const ComboBox = <T extends object>({
       inputValue={inputValue}
       defaultInputValue={defaultInputValue}
       onInputChange={handleInputChange}
-      onSelectionChange={handleSelectionChange}
+      onChange={handleChange}
       allowsEmptyCollection={allowsEmptyCollection ?? Boolean(emptyState)}
       menuTrigger={menuTrigger ?? 'focus'}
       className={cn(styles.field, className)}

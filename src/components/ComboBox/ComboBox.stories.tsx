@@ -55,7 +55,7 @@ export const WithDescription: Story = {
 
 export const WithSelection: Story = {
   name: 'With a selection',
-  args: { defaultSelectedKey: 'Europe/Athens' },
+  args: { defaultValue: 'Europe/Athens' },
 }
 
 export const AllowsCustomValue: Story = {
@@ -87,8 +87,8 @@ export const Creatable: Story = {
         <ComboBox
           label="Exercise"
           placeholder="Search or add…"
-          selectedKey={selected}
-          onSelectionChange={(key) => setSelected(key === null ? null : String(key))}
+          value={selected}
+          onChange={(key) => setSelected(key === null ? null : String(key))}
           onCreate={(name) => {
             setExercises((current) => [...current, name])
             setSelected(name)
@@ -127,5 +127,5 @@ export const Invalid: Story = {
 }
 
 export const Disabled: Story = {
-  args: { isDisabled: true, defaultSelectedKey: 'Europe/London' },
+  args: { isDisabled: true, defaultValue: 'Europe/London' },
 }
