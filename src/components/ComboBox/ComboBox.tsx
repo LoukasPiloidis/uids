@@ -31,18 +31,8 @@ export interface ComboBoxProps<T extends object>
   errorMessage?: string | ((validation: ValidationResult) => string)
   children: ReactNode
   placeholder?: string
-  /**
-   * Enables the create affordance: when the typed text matches no existing option,
-   * a "Create …" row is appended to the list. Receives the trimmed input value.
-   *
-   * Matching is case-insensitive against each item's `textValue` (or its string
-   * children), so give every `ComboBoxItem` a `textValue` when its children are
-   * not plain text — otherwise that item cannot be matched and will look creatable.
-   */
   onCreate?: (value: string) => void
-  /** Label for the create row. Defaults to `Create "<value>"`. */
   createLabel?: (value: string) => ReactNode
-  /** Shown when the filter matches nothing and there is nothing to create. */
   emptyState?: ReactNode
   className?: string
 }
@@ -72,6 +62,7 @@ export const ComboBox = <T extends object>({
   onInputChange,
   onSelectionChange,
   allowsEmptyCollection,
+  menuTrigger,
   className,
   ...props
 }: ComboBoxProps<T>) => {
@@ -112,6 +103,7 @@ export const ComboBox = <T extends object>({
       onInputChange={handleInputChange}
       onSelectionChange={handleSelectionChange}
       allowsEmptyCollection={allowsEmptyCollection ?? Boolean(emptyState)}
+      menuTrigger={menuTrigger ?? 'focus'}
       className={cn(styles.field, className)}
     >
       {label ? <Label className={styles.label}>{label}</Label> : null}
