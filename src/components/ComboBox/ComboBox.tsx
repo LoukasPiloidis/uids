@@ -33,6 +33,7 @@ export interface ComboBoxProps<T extends object>
   onCreate?: (value: string) => void
   createLabel?: (value: string) => ReactNode
   emptyState?: ReactNode
+  minWidth?: string | number
   className?: string
 }
 
@@ -62,6 +63,7 @@ export const ComboBox = <T extends object>({
   onChange,
   allowsEmptyCollection,
   menuTrigger,
+  minWidth = 200,
   className,
   ...props
 }: ComboBoxProps<T>) => {
@@ -106,7 +108,7 @@ export const ComboBox = <T extends object>({
       className={cn(styles.field, className)}
     >
       {label ? <Label className={styles.label}>{label}</Label> : null}
-      <div className={styles.group}>
+      <div className={styles.group} style={{ minWidth }}>
         <Input className={styles.input} placeholder={placeholder} />
         <Button className={styles.trigger} aria-label="Show suggestions">
           <ChevronDownIcon className={styles.chevron} />
