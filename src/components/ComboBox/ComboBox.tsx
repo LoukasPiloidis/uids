@@ -18,32 +18,22 @@ import { ChevronDownIcon, PlusIcon } from '../../icons'
 import { cn } from '../../lib/cn'
 import styles from './ComboBox.module.css'
 
-/**
- * Key of the synthetic "create" option. Exported so a consumer comparing keys in
- * `onSelectionChange` can recognise and skip it — `onCreate` already fires for it.
- */
 export const CREATE_KEY = '__uids-create__'
 
 export interface ComboBoxProps<T extends object>
-  extends Omit<AriaComboBoxProps<T>, 'className' | 'children'> {
+  extends Omit<
+    AriaComboBoxProps<T>,
+    'className' | 'children' | 'selectedKey' | 'defaultSelectedKey' | 'onSelectionChange'
+  > {
   label?: string
   description?: string
   errorMessage?: string | ((validation: ValidationResult) => string)
   children: ReactNode
   placeholder?: string
-  /**
-   * Enables the create affordance: when the typed text matches no existing option,
-   * a "Create …" row is appended to the list. Receives the trimmed input value.
-   *
-   * Matching is case-insensitive against each item's `textValue` (or its string
-   * children), so give every `ComboBoxItem` a `textValue` when its children are
-   * not plain text — otherwise that item cannot be matched and will look creatable.
-   */
   onCreate?: (value: string) => void
-  /** Label for the create row. Defaults to `Create "<value>"`. */
   createLabel?: (value: string) => ReactNode
-  /** Shown when the filter matches nothing and there is nothing to create. */
   emptyState?: ReactNode
+  minWidth?: string | number
   className?: string
 }
 
@@ -70,8 +60,10 @@ export const ComboBox = <T extends object>({
   inputValue,
   defaultInputValue,
   onInputChange,
-  onSelectionChange,
+  onChange,
   allowsEmptyCollection,
+  menuTrigger,
+  minWidth = 200,
   className,
   ...props
 }: ComboBoxProps<T>) => {
@@ -96,12 +88,12 @@ export const ComboBox = <T extends object>({
     onInputChange?.(value)
   }
 
-  const handleSelectionChange = (key: Key | null) => {
+  const handleChange = (key: Key | null) => {
     if (key === CREATE_KEY) {
       onCreate?.(trimmed)
       return
     }
-    onSelectionChange?.(key)
+    onChange?.(key)
   }
 
   return (
@@ -110,12 +102,13 @@ export const ComboBox = <T extends object>({
       inputValue={inputValue}
       defaultInputValue={defaultInputValue}
       onInputChange={handleInputChange}
-      onSelectionChange={handleSelectionChange}
+      onChange={handleChange}
       allowsEmptyCollection={allowsEmptyCollection ?? Boolean(emptyState)}
+      menuTrigger={menuTrigger ?? 'focus'}
       className={cn(styles.field, className)}
     >
       {label ? <Label className={styles.label}>{label}</Label> : null}
-      <div className={styles.group}>
+      <div className={styles.group} style={{ minWidth }}>
         <Input className={styles.input} placeholder={placeholder} />
         <Button className={styles.trigger} aria-label="Show suggestions">
           <ChevronDownIcon className={styles.chevron} />

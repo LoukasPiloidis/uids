@@ -14,7 +14,6 @@
 .group {
   display: flex;
   align-items: center;
-  min-width: 200px;
   background: var(--surface);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-md);
@@ -27,7 +26,7 @@
   border-color: var(--text-subtle);
 }
 
-.field[data-focus-within] .group {
+.field[data-focused] .group {
   border-color: var(--accent);
   box-shadow: var(--focus-ring);
 }
@@ -37,15 +36,20 @@
 }
 
 .input {
-  flex: 1;
   min-width: 0;
   padding: 8px 12px;
+
+  flex: 1;
   border: none;
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
   outline: none;
-  background: transparent;
   font-family: var(--font-ui);
   font-size: var(--text-base);
   color: var(--ink);
+}
+
+.input[data-focused] {
+  box-shadow: none;
 }
 
 .input::placeholder {
@@ -53,23 +57,22 @@
 }
 
 .trigger {
-  flex: none;
+  width: 32px;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
   align-self: stretch;
-  padding: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
+
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: var(--green-600);
 }
 
 .chevron {
   width: 12px;
   height: 12px;
   fill: none;
-  stroke: var(--text-subtle);
+  stroke: var(--neutral-0);
   stroke-width: 1.5;
   stroke-linecap: round;
   stroke-linejoin: round;
